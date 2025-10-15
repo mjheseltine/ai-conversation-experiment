@@ -47,6 +47,7 @@
 <div class="container" role="main">
   <h2>Conversation</h2>
 
+  <!-- AI Summary always visible above conversation -->
   <div id="aiSummaryBox" class="ai-summary">
     <strong>AI Summary:</strong>
     <p id="summaryText"></p>
@@ -122,18 +123,6 @@ function renderConversation(containerId, postsArray) {
       </div>`;
     container.appendChild(post);
   });
-
-// Insert AI summary after first post (only if element exists)
-const firstPost = container.querySelector(".post.main-post");
-const aiSummary = document.getElementById("aiSummaryBox");
-if(firstPost && aiSummary && aiSummary instanceof HTMLElement){
-  // Remove AI summary from its previous parent to avoid duplicates
-  if(aiSummary.parentNode !== container){
-    aiSummary.parentNode?.removeChild(aiSummary);
-    firstPost.insertAdjacentElement("afterend", aiSummary);
-  }
-}
-
 
   // Like buttons
   container.querySelectorAll(".like-btn").forEach(btn=>{
