@@ -27,17 +27,12 @@
     box-shadow: var(--shadow);
     align-items: flex-start;
   }
-  .post.main-post {
-    padding: 18px;
-    font-size: 16px;
-    background: #fff;
-  }
+  .post.main-post { padding: 18px; font-size: 16px; background: #fff; }
   .avatar {
     width: 48px;
     height: 48px;
     border-radius: 50%;
     flex: 0 0 48px;
-    background: #e6eefc;
     display: grid;
     place-items: center;
     font-weight: 700;
@@ -49,20 +44,8 @@
   .handle { color: var(--muted); }
   .time { color: var(--muted); }
   .text { margin-top: 8px; font-size: 15px; line-height: 1.45; color: #0f1724; }
-  .actions {
-    margin-top: 12px;
-    display: flex;
-    gap: 16px;
-    color: var(--muted);
-    font-size: 13px;
-  }
-  .actions span {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    cursor: pointer;
-    transition: color 0.2s ease;
-  }
+  .actions { margin-top: 12px; display: flex; gap: 16px; color: var(--muted); font-size: 13px; }
+  .actions span { display: flex; align-items: center; gap: 4px; cursor: pointer; transition: color 0.2s ease; }
   .actions .like-btn:hover { color: #e0245e; }
   .actions .retweet-btn:hover { color: #17bf63; }
   .actions .liked { color: #e0245e; }
@@ -78,21 +61,9 @@
     align-items: flex-start;
     box-shadow: var(--shadow);
   }
-  .ai-summary .avatar {
-    background: #facc15;
-    color: #92400e;
-  }
-  .ai-summary .meta {
-    font-size: 13px;
-    color: var(--gold);
-    font-weight: 600;
-  }
-  .ai-summary .text {
-    margin-top: 6px;
-    font-size: 15px;
-    line-height: 1.45;
-    color: #1f2937;
-  }
+  .ai-summary .avatar { background: #facc15; color: #92400e; }
+  .ai-summary .meta { font-size: 13px; color: var(--gold); font-weight: 600; }
+  .ai-summary .text { margin-top: 6px; font-size: 15px; line-height: 1.45; color: #1f2937; }
   .reply-box { margin-top: 12px; display: flex; gap: 10px; }
   textarea {
     flex: 1;
@@ -103,14 +74,7 @@
     resize: vertical;
     font-size: 14px;
   }
-  .submit {
-    background: var(--accent);
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-  }
+  .submit { background: var(--accent); color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -144,150 +108,116 @@
 
 <script>
 const posts = [
-  {
-    id: "p1",
-    avatarLabel: "AH",
-    name: "Office of Congressman Abe Hamadeh",
-    handle: "@RepHamadeh",
-    time: "2h",
-    text: "This government shutdown is entirely on the Democrats—Senate Democrats and House Democrats egging them on. The Republicans have no reason to budge. This was a clean CR. The radical left is the one shutting down the government because they want to give healthcare to illegal immigrants. That's a non-starter.",
-    likes: 50,
-    retweets: 10
-  },
-  {
-    id: "p2",
-    avatarLabel: "E",
-    name: "Elaine",
-    handle: "@Elaine",
-    time: "1h",
-    text: "Where does the 20 billion for Argentinian bail out come in? Republicans are a waste of government money.",
-    likes: randomInt(2, 15),
-    retweets: randomInt(0, 5)
-  },
-  {
-    id: "p3",
-    avatarLabel: "AA",
-    name: "Angry Arizonans",
-    handle: "@AngryAZ",
-    time: "1h",
-    text: "Hold the line. We don't negotiate with terrorists.",
-    likes: randomInt(5, 20),
-    retweets: randomInt(1, 5)
-  },
-  {
-    id: "p4",
-    avatarLabel: "DZ",
-    name: "DennyZ",
-    handle: "@dennyz",
-    time: "30m",
-    text: "“Clean CR” filled with the waste & fraud that @doge found, AND funding for USAID and PBS. That’s “clean”? @SpeakerJohnson’s talking points. Sad.",
-    likes: randomInt(3, 10),
-    retweets: randomInt(0, 3)
-  }
+  { id: "p1", avatarLabel: "AH", name: "Office of Congressman Abe Hamadeh", handle: "@RepHamadeh", time: "2h", text: "This government shutdown is entirely on the Democrats—Senate Democrats and House Democrats egging them on. The Republicans have no reason to budge. This was a clean CR. The radical left is the one shutting down the government because they want to give healthcare to illegal immigrants. That's a non-starter.", likes: 50, retweets: 10 },
+  { id: "p2", avatarLabel: "E", name: "Elaine", handle: "@Elaine", time: "1h", text: "Where does the 20 billion for Argentinian bail out come in? Republicans are a waste of government money.", likes: randomInt(2, 15), retweets: randomInt(0, 5) },
+  { id: "p3", avatarLabel: "AA", name: "Angry Arizonans", handle: "@AngryAZ", time: "1h", text: "Hold the line. We don't negotiate with terrorists.", likes: randomInt(5, 20), retweets: randomInt(1, 5) },
+  { id: "p4", avatarLabel: "DZ", name: "DennyZ", handle: "@dennyz", time: "30m", text: "“Clean CR” filled with the waste & fraud that @doge found, AND funding for USAID and PBS. That’s “clean”? @SpeakerJohnson’s talking points. Sad.", likes: randomInt(3, 10), retweets: randomInt(0, 3) }
 ];
 
-function randomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+const avatarColors = ['#e6eefc','#fee2e2','#dcfce7','#fef9c3','#e0e7ff'];
 
-function renderConversation(containerId, postsArray) {
+function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+function initials(label) { const toks = label.trim().split(/\s+/); return toks.length>1?(toks[0][0]+toks[1][0]).toUpperCase():label.slice(0,2).toUpperCase(); }
+function escapeHtml(text) { return String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
+
+function renderConversation(containerId, postsArray){
   const container = document.getElementById(containerId);
   container.innerHTML = "";
-  postsArray.forEach((p, index) => {
+  postsArray.forEach((p,index)=>{
     const post = document.createElement("article");
-    post.className = index === 0 ? "post main-post" : "post";
-    post.setAttribute("data-post-id", p.id);
+    post.className = index===0?"post main-post":"post";
+    post.setAttribute("data-post-id",p.id);
+    const bgColor = avatarColors[index % avatarColors.length];
     post.innerHTML = `
-      <div class="avatar">${escapeHtml(initials(p.avatarLabel || p.name))}</div>
+      <div class="avatar" style="background:${bgColor}">${escapeHtml(initials(p.avatarLabel||p.name))}</div>
       <div class="content">
-        <div class="meta">
-          <div class="name">${escapeHtml(p.name)}</div>
-          <div class="handle">${escapeHtml(p.handle)}</div>
-          <div class="time">· ${escapeHtml(p.time)}</div>
-        </div>
+        <div class="meta"><div class="name">${escapeHtml(p.name)}</div><div class="handle">${escapeHtml(p.handle)}</div><div class="time">· ${escapeHtml(p.time)}</div></div>
         <div class="text">${escapeHtml(p.text)}</div>
         <div class="actions">
-          <span class="like-btn" data-liked="false">❤️ <span class="like-count">${p.likes || 0}</span></span>
-          <span class="retweet-btn" data-retweeted="false">🔁 <span class="retweet-count">${p.retweets || 0}</span></span>
+          <span class="like-btn" data-liked="false">❤️ <span class="like-count">${p.likes||0}</span></span>
+          <span class="retweet-btn" data-retweeted="false">🔁 <span class="retweet-count">${p.retweets||0}</span></span>
           <span class="reply-btn">💬 Reply</span>
         </div>
-      </div>
-    `;
+      </div>`;
     container.appendChild(post);
   });
 
-  // Move AI summary box after first post (slot 2)
+  // Move AI summary after first post
   const firstPost = container.querySelector(".post.main-post");
-  if (firstPost) {
-    const aiSummary = document.getElementById("aiSummaryBox");
-    firstPost.insertAdjacentElement("afterend", aiSummary);
-  }
+  if(firstPost){firstPost.insertAdjacentElement("afterend",document.getElementById("aiSummaryBox"));}
 
-  // Attach like & retweet interactions
-  container.querySelectorAll(".like-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const liked = btn.getAttribute("data-liked") === "true";
+  // Like button
+  container.querySelectorAll(".like-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const postEl = btn.closest(".post");
+      const postId = postEl ? postEl.getAttribute("data-post-id") : null;
+      const liked = btn.getAttribute("data-liked")==="true";
       const countSpan = btn.querySelector(".like-count");
       let count = parseInt(countSpan.textContent);
-      count = liked ? count - 1 : count + 1;
+      count = liked? count-1 : count+1;
       countSpan.textContent = count;
-      btn.setAttribute("data-liked", !liked);
-      btn.classList.toggle("liked", !liked);
+      btn.setAttribute("data-liked",!liked);
+      btn.classList.toggle("liked",!liked);
+
+      // Notify Qualtrics
+      if(window.parent!==window){window.parent.postMessage({type:"USER_LIKE",postId,count},"*");}
+
+      // Send updated height
+      sendHeightToParent();
     });
   });
 
-  container.querySelectorAll(".retweet-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const retweeted = btn.getAttribute("data-retweeted") === "true";
+  // Retweet button
+  container.querySelectorAll(".retweet-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const postEl = btn.closest(".post");
+      const postId = postEl ? postEl.getAttribute("data-post-id") : null;
+      const retweeted = btn.getAttribute("data-retweeted")==="true";
       const countSpan = btn.querySelector(".retweet-count");
       let count = parseInt(countSpan.textContent);
-      count = retweeted ? count - 1 : count + 1;
+      count = retweeted? count-1 : count+1;
       countSpan.textContent = count;
-      btn.setAttribute("data-retweeted", !retweeted);
-      btn.classList.toggle("retweeted", !retweeted);
+      btn.setAttribute("data-retweeted",!retweeted);
+      btn.classList.toggle("retweeted",!retweeted);
+
+      // Notify Qualtrics
+      if(window.parent!==window){window.parent.postMessage({type:"USER_RETWEET",postId,count},"*");}
+
+      // Send updated height
+      sendHeightToParent();
     });
   });
 }
 
-function initials(label) {
-  const toks = label.trim().split(/\s+/);
-  return toks.length > 1 ? (toks[0][0] + toks[1][0]).toUpperCase() : label.slice(0, 2).toUpperCase();
-}
-
-function escapeHtml(text) {
-  return String(text)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
-
-renderConversation("conversation", posts);
+renderConversation("conversation",posts);
 
 // Capture user comment
-document.getElementById("submitComment").addEventListener("click", () => {
+document.getElementById("submitComment").addEventListener("click",()=>{
   const txt = document.getElementById("userComment").value.trim();
-  if (!txt) { alert("Please write something before posting."); return; }
-  const newPost = {
-    id: "u" + Date.now(),
-    avatarLabel: "Y",
-    name: "You",
-    handle: "@you",
-    time: "now",
-    text: txt,
-    likes: 0,
-    retweets: 0
-  };
+  if(!txt){alert("Please write something before posting."); return;}
+  const newPost = { id:"u"+Date.now(), avatarLabel:"Y", name:"You", handle:"@you", time:"now", text:txt, likes:0, retweets:0 };
   posts.push(newPost);
-  renderConversation("conversation", posts);
-  document.getElementById("userComment").value = "";
+  renderConversation("conversation",posts);
+  document.getElementById("userComment").value="";
 
-  // Send comment to Qualtrics if inside an iframe
-  if (window.parent !== window) {
-    window.parent.postMessage({ type: "USER_COMMENT", data: txt }, "*");
-  }
+  // Send comment to Qualtrics
+  if(window.parent!==window){window.parent.postMessage({type:"USER_COMMENT",data:txt},"*");}
 });
+
+// --- Auto-resize iframe ---
+function sendHeightToParent(){
+  if(window.parent!==window){
+    const height = document.body.scrollHeight;
+    window.parent.postMessage({type:"IFRAME_HEIGHT",height},"*");
+  }
+}
+
+// Initial height send
+sendHeightToParent();
+
+// Observe conversation for changes (new posts) to update height
+const observer = new MutationObserver(sendHeightToParent);
+observer.observe(document.getElementById("conversation"),{childList:true,subtree:true});
 </script>
 </body>
 </html>
