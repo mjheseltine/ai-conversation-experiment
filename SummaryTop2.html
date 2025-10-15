@@ -13,13 +13,8 @@
   body { background:var(--bg); margin:24px; color:#111; }
   .container { max-width:820px; margin:0 auto; }
   .conversation { display:flex; flex-direction:column; gap:12px; margin-bottom:16px; }
-  .post {
-    background:var(--card); border-radius:var(--radius); padding:14px;
-    display:flex; gap:12px; box-shadow:var(--shadow); align-items:flex-start;
-  }
-  .avatar { width:52px; height:52px; border-radius:50%; flex:0 0 52px;
-    display:grid; place-items:center; font-weight:700; color:#fff;
-  }
+  .post { background:var(--card); border-radius:var(--radius); padding:14px; display:flex; gap:12px; box-shadow:var(--shadow); align-items:flex-start; }
+  .avatar { width:52px; height:52px; border-radius:50%; flex:0 0 52px; display:grid; place-items:center; font-weight:700; color:#fff; }
   .content { flex:1; }
   .meta { display:flex; gap:8px; align-items:center; font-size:13px; color:var(--muted); }
   .name { font-weight:600; color:#0f1724; }
@@ -29,31 +24,23 @@
   .actions { margin-top:12px; display:flex; gap:10px; color:var(--muted); font-size:13px; cursor:pointer; }
   .actions .liked { color:#e0245e; }
   .actions .retweeted { color:#17bf63; }
-  .ai-summary { background:#fffbea; color:#1f2937; border:1px solid #facc15;
-    border-radius:var(--radius); padding:14px 16px; margin-bottom:14px; box-shadow:var(--shadow);
-  }
+  .ai-summary { background:#fffbea; color:#1f2937; border:1px solid #facc15; border-radius:var(--radius); padding:14px 16px; margin-bottom:14px; box-shadow:var(--shadow); }
   .reply-box { margin-top:12px; display:flex; gap:10px; }
-  textarea {
-    flex:1; min-height:78px; padding:10px; border-radius:10px;
-    border:1px solid #e6edf7; resize:vertical; font-size:14px;
-  }
-  .submit {
-    background:var(--accent); color:white; border:none; padding:8px 14px;
-    border-radius:8px; cursor:pointer;
-  }
+  textarea { flex:1; min-height:78px; padding:10px; border-radius:10px; border:1px solid #e6edf7; resize:vertical; font-size:14px; }
+  .submit { background:var(--accent); color:white; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; }
 </style>
 </head>
 <body>
 <div class="container" role="main">
   <h2>Conversation</h2>
+  <!-- Conversation container -->
+  <div id="conversation" class="conversation"></div>
 
-  <!-- AI Summary always visible above conversation -->
+  <!-- AI summary (outside initially, will be inserted after first post by JS) -->
   <div id="aiSummaryBox" class="ai-summary">
     <strong>AI Summary:</strong>
     <p id="summaryText"></p>
   </div>
-
-  <div id="conversation" class="conversation"></div>
 
   <div style="margin-top:18px;">
     <label for="userComment" style="display:block;margin-bottom:8px;font-weight:600">Your comment</label>
@@ -68,13 +55,13 @@
 // --- Posts data ---
 const posts = [
   { id:"p1", avatarLabel:"EW", name:"EcoWarriors", handle:"@EcoWarriors", time:"2h",
-    text:`The amount of extra heat humans are adding to the ocean is 14  zettajoules which is equal to 7 atomic bombs detonating every second of every day for a  year. Since 1955 oceans have absorbed excess heat enough to boil 60 billion Olympic swimming pools.`, likes:50, retweets:10 },
+    text:`The amount of extra heat humans are adding to the ocean is 14 zettajoules which is equal to 7 atomic bombs detonating every second of every day for a year. Since 1955 oceans have absorbed excess heat enough to boil 60 billion Olympic swimming pools.`, likes:50, retweets:10 },
   { id:"p2", avatarLabel:"E", name:"Elaine", handle:"@ElaineAZ", time:"1h",
     text:"Extra compared to what?", likes:5, retweets:1 },
   { id:"p3", avatarLabel:"AA", name:"Angry Arizonans", handle:"@AngryAZ", time:"1h",
     text:"The ocean absorbs more than 90% of excess heat from greenhouse gases. It's essentially buffering humanity from the full force of climate change — but at an enormous cost to marine life.", likes:8, retweets:2 },
   { id:"p4", avatarLabel:"DZ", name:"DennyZ", handle:"@DennyZ", time:"45m",
-    text:"We're way past screwed.Way to go oliogarchs. You suck.", likes:4, retweets:0 }
+    text:"We're way past screwed. Way to go oligarchs. You suck.", likes:4, retweets:0 }
 ];
 
 // Optional avatar colors
@@ -82,7 +69,6 @@ const avatarColors = ["#1f6feb","#e0245e","#17bf63","#f59e0b"];
 
 // --- AI summary ---
 const aiSummaryText = `Human activity has added 14 zettajoules of heat to oceans since 1955 (equal to 7 atomic bombs/second for a year). Replies are sharply divided between those accepting climate science and skeptics denying human causation or questioning the data.`;
-
 document.getElementById("summaryText").textContent = aiSummaryText;
 
 // --- Helper functions ---
@@ -97,7 +83,7 @@ function escapeHtml(text){
 }
 
 // --- Render conversation ---
-function renderConversation(containerId, postsArray) {
+function renderConversation(containerId, postsArray){
   const container = document.getElementById(containerId);
   container.innerHTML = "";
 
@@ -120,6 +106,13 @@ function renderConversation(containerId, postsArray) {
     container.appendChild(post);
   });
 
+  // Insert AI summary **after first post**
+  const firstPost = container.querySelector(".post.main-post");
+  if(firstPost){
+    const aiSummaryBox = document.getElementById("aiSummaryBox");
+    if(aiSummaryBox) firstPost.insertAdjacentElement("afterend", aiSummaryBox);
+  }
+
   // Like buttons
   container.querySelectorAll(".like-btn").forEach(btn=>{
     btn.addEventListener("click",()=>{
@@ -128,7 +121,7 @@ function renderConversation(containerId, postsArray) {
       const liked = btn.getAttribute("data-liked")==="true";
       const countSpan = btn.querySelector(".like-count");
       let count = parseInt(countSpan.textContent);
-      count = liked ? count-1 : count+1;
+      count = liked? count-1 : count+1;
       countSpan.textContent = count;
       btn.setAttribute("data-liked",!liked);
       btn.classList.toggle("liked",!liked);
@@ -148,7 +141,7 @@ function renderConversation(containerId, postsArray) {
       const retweeted = btn.getAttribute("data-retweeted")==="true";
       const countSpan = btn.querySelector(".retweet-count");
       let count = parseInt(countSpan.textContent);
-      count = retweeted ? count-1 : count+1;
+      count = retweeted? count-1 : count+1;
       countSpan.textContent = count;
       btn.setAttribute("data-retweeted",!retweeted);
       btn.classList.toggle("retweeted",!retweeted);
@@ -185,11 +178,7 @@ function sendHeightToParent(){
     window.parent.postMessage({type:"IFRAME_HEIGHT",height},"*");
   }
 }
-
-// Initial height send
 sendHeightToParent();
-
-// Observe conversation for changes
 const observer = new MutationObserver(sendHeightToParent);
 observer.observe(document.getElementById("conversation"),{childList:true,subtree:true});
 </script>
