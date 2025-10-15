@@ -114,4 +114,94 @@ function renderConversation(containerId, postsArray) {
       <div class="content">
         <div class="meta"><div class="name">${escapeHtml(p.name)}</div><div class="handle">${escapeHtml(p.handle)}</div><div class="time">· ${escapeHtml(p.time)}</div></div>
         <div class="text">${escapeHtml(p.text)}</div>
-        <di
+        <div class="actions">
+          <span class="like-btn" data-liked="false">❤️ <span class="like-count">${p.likes||0}</span></span>
+          <span class="retweet-btn" data-retweeted="false">🔁 <span class="retweet-count">${p.retweets||0}</span></span>
+          <span class="reply-btn">💬 Reply</span>
+        </div>
+      </div>`;
+    container.appendChild(post);
+  });
+
+  // Insert AI summary after first post
+  const firstPost = container.querySelector(".post.main-post");
+  const aiSummary = document.getElementById("aiSummaryBox");
+  if(firstPost && aiSummary){
+    firstPost.insertAdjacentElement("afterend",aiSummary);
+  }
+
+  // Like buttons
+  container.querySelectorAll(".like-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const postEl = btn.closest(".post");
+      const postId = postEl ? postEl.getAttribute("data-post-id") : null;
+      const liked = btn.getAttribute("data-liked")==="true";
+      const countSpan = btn.querySelector(".like-count");
+      let count = parseInt(countSpan.textContent);
+      count = liked ? count-1 : count+1;
+      countSpan.textContent = count;
+      btn.setAttribute("data-liked",!liked);
+      btn.classList.toggle("liked",!liked);
+
+      if(window.parent!==window){
+        window.parent.postMessage({type:"USER_LIKE",postId,count},"*");
+      }
+      sendHeightToParent();
+    });
+  });
+
+  // Retweet buttons
+  container.querySelectorAll(".retweet-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const postEl = btn.closest(".post");
+      const postId = postEl ? postEl.getAttribute("data-post-id") : null;
+      const retweeted = btn.getAttribute("data-retweeted")==="true";
+      const countSpan = btn.querySelector(".retweet-count");
+      let count = parseInt(countSpan.textContent);
+      count = retweeted ? count-1 : count+1;
+      countSpan.textContent = count;
+      btn.setAttribute("data-retweeted",!retweeted);
+      btn.classList.toggle("retweeted",!retweeted);
+
+      if(window.parent!==window){
+        window.parent.postMessage({type:"USER_RETWEET",postId,count},"*");
+      }
+      sendHeightToParent();
+    });
+  });
+}
+
+// Initial render
+renderConversation("conversation",posts);
+
+// Capture user comment
+document.getElementById("submitComment").addEventListener("click",()=>{
+  const txt = document.getElementById("userComment").value.trim();
+  if(!txt){alert("Please write something before posting."); return;}
+  const newPost = { id:"u"+Date.now(), avatarLabel:"Y", name:"You", handle:"@you", time:"now", text:txt, likes:0, retweets:0 };
+  posts.push(newPost);
+  renderConversation("conversation",posts);
+  document.getElementById("userComment").value="";
+
+  if(window.parent!==window){
+    window.parent.postMessage({type:"USER_COMMENT",data:txt},"*");
+  }
+});
+
+// --- Auto-resize iframe ---
+function sendHeightToParent(){
+  if(window.parent!==window){
+    const height = document.body.scrollHeight;
+    window.parent.postMessage({type:"IFRAME_HEIGHT",height},"*");
+  }
+}
+
+// Initial height send
+sendHeightToParent();
+
+// Observe conversation for changes
+const observer = new MutationObserver(sendHeightToParent);
+observer.observe(document.getElementById("conversation"),{childList:true,subtree:true});
+</script>
+</body>
+</html>
