@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Climate Conversation with AI Summary</title>
+<title>Government Shutdown Conversation with AI Summary</title>
 <style>
   :root {
     --bg: #f6f7fb;
@@ -77,97 +77,168 @@
 
 <script>
 const initialPosts = [
-  { id: "p1", name: "EcoWarriors", handle: "@EcoWarriors", avatarSeed: "EW", text: "The amount of extra heat humans are adding to the ocean is 14 zettajoules — equal to 7 atomic bombs detonating every second of every day for a year. Since 1955 oceans have absorbed excess heat enough to boil 60 billion Olympic swimming pools.", likes: 50, retweets: 10 },
-  { id: "p2", name: "Elaine", handle: "@ElaineAZ", avatarSeed: "E", text: "Extra compared to what?", likes: 5, retweets: 1 },
-  { id: "p3", name: "Angry Arizonans", handle: "@AngryAZ", avatarSeed: "AA", text: "The ocean absorbs more than 90% of excess heat from greenhouse gases. It's buffering us from climate change — but at an enormous cost to marine life.", likes: 8, retweets: 2 },
-  { id: "p4", name: "DennyZ", handle: "@DennyZ", avatarSeed: "DZ", text: "We're way past screwed. Way to go oligarchs. You suck.", likes: 4, retweets: 0 },
-  { id: "p5", name: "GreenFuture", handle: "@GreenFuture", avatarSeed: "GF", text: "It’s not all doom. Renewable energy investments are scaling faster than ever — there’s still hope if we act decisively now.", likes: 6, retweets: 1 }
+  {
+    id: "p1",
+    name: "PoliticsDaily",
+    handle: "@pol_daily",
+    avatarSeed: "PD",
+    text: "NEWS: The Education Department plans to move multiple parts of the agency to other federal departments, an unprecedented effort to dismantle an agency created by Congress to ensure all Americans have equal access to educational opportunity.",
+    likes: 92,
+    retweets: 18
+  },
+  {
+    id: "p2",
+    name: "TruthGuard",
+    handle: "@truthguard",
+    avatarSeed: "TG",
+    text: "More privatization scams, more charter schools, more welfare for the rich… more defunding of public education?",
+    likes: 33,
+    retweets: 4
+  },
+  {
+    id: "p3",
+    name: "Justice4All",
+    handle: "@justice_watch",
+    avatarSeed: "JW",
+    text: "The Dept of Ed has consistently made education worse year after year since its inscription. For the sake of the children, end it, and salt the earth where it resided to prevent it from ever rising up to harm the children again.",
+    likes: 41,
+    retweets: 9
+  },
+  {
+    id: "p4",
+    name: "Watcher",
+    handle: "@watcher",
+    avatarSeed: "WA",
+    text: "Good. States can handle their own education departments.",
+    likes: 18,
+    retweets: 2
+  },
+  {
+    id: "p5",
+    name: "Ella",
+    handle: "@ella_az",
+    avatarSeed: "EA",
+    text: "Unprecedented means bad, right?",
+    likes: 22,
+    retweets: 1
+  }
 ];
 
+
 const morePosts = [
-  { id: "p6", name: "ScienceSam", handle: "@SciSam", avatarSeed: "SS", text: "Worth remembering this isn’t new data — scientists have been warning about ocean heat uptake for decades. 🔥🌊", likes: 3, retweets: 1 },
-  { id: "p7", name: "JohnL", handle: "@JohnL", avatarSeed: "JL", text: "And yet still people deny it. 🤦‍♂️", likes: 2, retweets: 0 },
-  { id: "p8", name: "OceanConserv", handle: "@OceanConserv", avatarSeed: "OC", text: "Marine heatwaves have already killed coral reefs worldwide. This isn’t abstract — it’s happening now.", likes: 5, retweets: 2 },
-  { id: "p9", name: "KaraB", handle: "@KaraB", avatarSeed: "KB", text: "Can we maybe focus on solutions instead of doom for once?", likes: 4, retweets: 1 }
+  {
+    id: "p6",
+    name: "DylanZ",
+    handle: "@dz_reads",
+    avatarSeed: "DZ",
+    text: "What a surprise. The man whose daddy gave him $1M to start his first business doesn’t care about education.",
+    likes: 19,
+    retweets: 1
+  },
+  {
+    id: "p7",
+    name: "MayaH",
+    handle: "@mayah_ideas",
+    avatarSeed: "MH",
+    text: "This is GREAT news!!!",
+    likes: 27,
+    retweets: 5
+  },
+  {
+    id: "p8",
+    name: "Janelle",
+    handle: "@janelle_d",
+    avatarSeed: "JD",
+    text: "Trump isn't correct. Everyone should have access to education and not vouchers. Most smaller cities, towns, and villages don't have voucher schools. I will never understand how people vote to make their children less educated or not educated at all.",
+    likes: 20,
+    retweets: 2
+  },
+  {
+    id: "p9",
+    name: "Avery",
+    handle: "@averylane",
+    avatarSeed: "AL",
+    text: "Good, it’s been nothing but a bureaucratic disaster.",
+    likes: 24,
+    retweets: 3
+  },
 ];
+
+
 
 const aiSummary = {
   id: "ai_summary",
   isAi: true,
   name: "AI Summary 🤖",
   avatarSeed: "AI",
-  text: 'Post uses alarming atomic bomb comparisons to describe ocean heat absorption since 1955, but lacks clear baseline for "extra" heat. Replies acknowledge data exists but debate whether focus should be catastrophism vs. practical solutions like expanding renewable energy investments already underway.'
+  text: "Senate unanimously votes to release more Epstein files after House approval—bill now at Trump's desk. Key figures like Trump, Bondi, Patel, and Johnson may have serious reasons to fear full transparency given Trump's documented connections to Epstein. This coverup traces back to Epstein's sweetheart plea deal and continues today. Victims deserve the complete truth with zero redactions, yet there's legitimate concern this will be buried or sanitized like past releases. The justice system's decades-long failure to stop Epstein represents systemic rot that protected the powerful. Release everything. 🔦⚖️"
 };
 
 let appendedMore = false;
 let likeCounts = {};
 let retweetCounts = {};
 
-function initials(seed) { const s=String(seed).trim().split(/\s+/); return s.length>1?s[0][0]+s[1][0]:String(seed).slice(0,2).toUpperCase(); }
-function seedToAvatarClass(seed) { let s=0; for(let c of String(seed)) s+=c.charCodeAt(0); return ["g1","g2","g3","g4"][s%4]; }
+function initials(seed){const s=String(seed).trim().split(/\s+/);return s.length>1?s[0][0]+s[1][0]:String(seed).slice(0,2).toUpperCase();}
+function seedToAvatarClass(seed){let s=0;for(let c of String(seed))s+=c.charCodeAt(0);return["g1","g2","g3","g4"][s%4];}
 
-const conversationEl = document.getElementById("conversation");
+const conversationEl=document.getElementById("conversation");
 
-function renderInitial() {
-  conversationEl.innerHTML = "";
+function renderInitial(){
+  conversationEl.innerHTML="";
   initialPosts.forEach((p,i)=>{
     conversationEl.appendChild(createPostElement(p));
-    if(i===0) conversationEl.appendChild(createAiSummaryElement(aiSummary));
+    if(i===0)conversationEl.appendChild(createAiSummaryElement(aiSummary));
   });
 }
 
 function createPostElement(p){
-  const wrapper=document.createElement("article"); wrapper.className="post fade-in"; wrapper.id=`post-${p.id}`;
-  const avatar=document.createElement("div"); avatar.className="avatar "+seedToAvatarClass(p.avatarSeed||p.name||p.id); avatar.textContent=initials(p.avatarSeed||p.name||p.id);
-  const content=document.createElement("div"); content.className="content";
-  const meta=document.createElement("div"); meta.className="meta";
-  const name=document.createElement("span"); name.className="name"; name.textContent=p.name;
-  const handle=document.createElement("span"); handle.className="handle"; handle.textContent=" "+p.handle;
+  const wrapper=document.createElement("article");wrapper.className="post fade-in";wrapper.id=`post-${p.id}`;
+  const avatar=document.createElement("div");avatar.className="avatar "+seedToAvatarClass(p.avatarSeed||p.name||p.id);avatar.textContent=initials(p.avatarSeed||p.name||p.id);
+  const content=document.createElement("div");content.className="content";
+  const meta=document.createElement("div");meta.className="meta";
+  const name=document.createElement("span");name.className="name";name.textContent=p.name;
+  const handle=document.createElement("span");handle.className="handle";handle.textContent=" "+p.handle;
   meta.append(name,handle);
-  const text=document.createElement("div"); text.className="text"; text.textContent=p.text;
-  const actions=document.createElement("div"); actions.className="actions";
-  const likeBtn=document.createElement("button"); likeBtn.innerHTML=`❤️ <span class="count">${p.likes||0}</span>`; likeBtn.onclick=()=>{ likeCounts[p.id]=(likeCounts[p.id]??p.likes??0)+1; likeBtn.querySelector(".count").textContent=likeCounts[p.id]; window.parent.postMessage({type:"USER_LIKE",postId:p.id},"*"); }
-  const rtBtn=document.createElement("button"); rtBtn.innerHTML=`🔁 <span class="count">${p.retweets||0}</span>`; rtBtn.onclick=()=>{ retweetCounts[p.id]=(retweetCounts[p.id]??p.retweets??0)+1; rtBtn.querySelector(".count").textContent=retweetCounts[p.id]; window.parent.postMessage({type:"USER_RETWEET",postId:p.id},"*"); }
-  actions.append(likeBtn,rtBtn); content.append(meta,text,actions); wrapper.append(avatar,content); addHoverTracking(wrapper,p.id); return wrapper;
+  const text=document.createElement("div");text.className="text";text.textContent=p.text;
+  const actions=document.createElement("div");actions.className="actions";
+  const likeBtn=document.createElement("button");likeBtn.innerHTML=`❤️ <span class="count">${p.likes||0}</span>`;likeBtn.onclick=()=>{likeCounts[p.id]=(likeCounts[p.id]??p.likes??0)+1;likeBtn.querySelector(".count").textContent=likeCounts[p.id];window.parent.postMessage({type:"USER_LIKE",postId:p.id},"*");}
+  const rtBtn=document.createElement("button");rtBtn.innerHTML=`🔁 <span class="count">${p.retweets||0}</span>`;rtBtn.onclick=()=>{retweetCounts[p.id]=(retweetCounts[p.id]??p.retweets??0)+1;rtBtn.querySelector(".count").textContent=retweetCounts[p.id];window.parent.postMessage({type:"USER_RETWEET",postId:p.id},"*");}
+  actions.append(likeBtn,rtBtn);content.append(meta,text,actions);wrapper.append(avatar,content);addHoverTracking(wrapper,p.id);return wrapper;
 }
 
 function createAiSummaryElement(ai){
-  const el=document.createElement("div"); el.className="ai-summary fade-in";
-  const avatar=document.createElement("div"); avatar.className="avatar g-ai"; avatar.textContent="🤖";
-  const content=document.createElement("div"); content.className="content";
-  const meta=document.createElement("div"); meta.className="meta";
-  const name=document.createElement("span"); name.className="name"; name.textContent=ai.name; meta.appendChild(name);
-  const text=document.createElement("div"); text.className="text"; text.textContent=ai.text;
-  content.append(meta,text); el.append(avatar,content); return el;
+  const el=document.createElement("div");el.className="ai-summary fade-in";
+  const avatar=document.createElement("div");avatar.className="avatar g-ai";avatar.textContent="🤖";
+  const content=document.createElement("div");content.className="content";
+  const meta=document.createElement("div");meta.className="meta";
+  const name=document.createElement("span");name.className="name";name.textContent=ai.name;meta.appendChild(name);
+  const text=document.createElement("div");text.className="text";text.textContent=ai.text;
+  content.append(meta,text);el.append(avatar,content);return el;
 }
 
-function addHoverTracking(el, postId){
-  let timer; el.addEventListener("mouseenter",()=>{ timer=setTimeout(()=>{ window.parent.postMessage({type:"USER_HOVER_POST",postId},"*"); },2000); });
-  el.addEventListener("mouseleave",()=>clearTimeout(timer));
-}
+function addHoverTracking(el,postId){let timer;el.addEventListener("mouseenter",()=>{timer=setTimeout(()=>{window.parent.postMessage({type:"USER_HOVER_POST",postId},"*");},2000);});el.addEventListener("mouseleave",()=>clearTimeout(timer));}
 
 document.getElementById("showMore").addEventListener("click",e=>{
-  if(appendedMore) return;
-  appendedMore=true;
+  if(appendedMore)return;appendedMore=true;
   morePosts.forEach(p=>conversationEl.appendChild(createPostElement(p)));
-  e.target.classList.add("fade-out"); setTimeout(()=>e.target.style.display="none",260);
-  window.parent.postMessage({type:"USER_SHOW_MORE_CLICKED"},"*"); sendHeightToParent();
+  e.target.classList.add("fade-out");setTimeout(()=>e.target.style.display="none",260);
+  window.parent.postMessage({type:"USER_SHOW_MORE_CLICKED"},"*");sendHeightToParent();
 });
 
 document.getElementById("postComment").addEventListener("click",()=>{
-  const ta=document.getElementById("userComment"); const txt=ta.value.trim();
-  if(!txt) return alert("Please write something before posting.");
+  const ta=document.getElementById("userComment");const txt=ta.value.trim();
+  if(!txt)return alert("Please write something before posting.");
   const newPost={id:"u"+Date.now(),name:"You",handle:"@you",avatarSeed:"YOU",text:txt,likes:0,retweets:0};
-  conversationEl.appendChild(createPostElement(newPost)); ta.value="";
-  window.parent.postMessage({type:"USER_COMMENT",data:txt},"*"); sendHeightToParent();
+  conversationEl.appendChild(createPostElement(newPost));ta.value="";
+  window.parent.postMessage({type:"USER_COMMENT",data:txt},"*");sendHeightToParent();
 });
 
 let scrolledBottomSent=false;
-window.addEventListener("scroll",()=>{ if(scrolledBottomSent) return; if((window.innerHeight+window.scrollY)>=(document.body.offsetHeight-6)){ scrolledBottomSent=true; window.parent.postMessage({type:"USER_SCROLLED_BOTTOM"},"*"); } });
+window.addEventListener("scroll",()=>{if(scrolledBottomSent)return;if((window.innerHeight+window.scrollY)>=(document.body.offsetHeight-6)){scrolledBottomSent=true;window.parent.postMessage({type:"USER_SCROLLED_BOTTOM"},"*");}});
 
-function sendHeightToParent(){ if(window.parent!==window){ window.parent.postMessage({type:"IFRAME_HEIGHT",height:document.body.scrollHeight},"*"); } }
+function sendHeightToParent(){if(window.parent!==window){window.parent.postMessage({type:"IFRAME_HEIGHT",height:document.body.scrollHeight},"*");}}
 
-renderInitial(); sendHeightToParent(); const mo=new MutationObserver(sendHeightToParent); mo.observe(conversationEl,{childList:true,subtree:true});
+renderInitial();sendHeightToParent();const mo=new MutationObserver(sendHeightToParent);mo.observe(conversationEl,{childList:true,subtree:true});
 </script>
 </body>
 </html>
