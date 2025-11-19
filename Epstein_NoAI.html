@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Epstein Conversation</title>
+
 <style>
   :root {
     --bg:#f6f7fb; --card:#fff; --muted:#6b7280; --accent:#1f6feb;
@@ -43,11 +44,15 @@
   .post-btn:hover{background:#155bd8;}
 </style>
 </head>
+
 <body>
 <div class="container">
   <h2>Conversation</h2>
+
   <div id="conversation" class="conversation" aria-live="polite"></div>
+
   <button id="showMore">Show more comments</button>
+
   <div class="reply-box">
     <textarea id="userComment" placeholder="Write a reply..."></textarea>
     <button id="postComment" class="post-btn">Post</button>
@@ -55,6 +60,10 @@
 </div>
 
 <script>
+/* ---------------------------------------------------
+   POST DATA
+---------------------------------------------------- */
+
 const initialPosts = [
   {
     id: "p1",
@@ -103,7 +112,6 @@ const initialPosts = [
   }
 ];
 
-
 const morePosts = [
   {
     id: "p6",
@@ -140,58 +148,198 @@ const morePosts = [
     text: "What matters is whether these files show coordination, awareness, or just name-dropping. Context matters. Headlines rarely include it.",
     likes: 24,
     retweets: 3
-  },
+  }
 ];
 
+/* ---------------------------------------------------
+   RANDOMIZATION HELPERS
+---------------------------------------------------- */
 
-let appendedMore=false, likeCounts={}, retweetCounts={};
-
-function initials(seed){const s=String(seed).trim().split(/\s+/);return s.length>1?s[0][0]+s[1][0]:String(seed).slice(0,2).toUpperCase();}
-function seedToAvatarClass(seed){let s=0;for(let c of String(seed))s+=c.charCodeAt(0);return["g1","g2","g3","g4"][s%4];}
-
-const convo=document.getElementById("conversation");
-
-function renderInitial(){
-  convo.innerHTML="";
-  initialPosts.forEach(p=>convo.appendChild(createPost(p)));
-}
-function createPost(p){
-  const wrap=document.createElement("article");wrap.className="post fade-in";wrap.id=`post-${p.id}`;
-  const av=document.createElement("div");av.className="avatar "+seedToAvatarClass(p.avatarSeed||p.name||p.id);av.textContent=initials(p.avatarSeed||p.name||p.id);
-  const cont=document.createElement("div");cont.className="content";
-  const meta=document.createElement("div");meta.className="meta";
-  const nm=document.createElement("span");nm.className="name";nm.textContent=p.name;
-  const hd=document.createElement("span");hd.className="handle";hd.textContent=" "+p.handle;
-  meta.append(nm,hd);
-  const txt=document.createElement("div");txt.className="text";txt.textContent=p.text;
-  const act=document.createElement("div");act.className="actions";
-  const like=document.createElement("button");like.innerHTML=`❤️ <span class="count">${p.likes||0}</span>`;
-  like.onclick=()=>{likeCounts[p.id]=(likeCounts[p.id]??p.likes??0)+1;like.querySelector(".count").textContent=likeCounts[p.id];window.parent.postMessage({type:"USER_LIKE",postId:p.id},"*");};
-  const rt=document.createElement("button");rt.innerHTML=`🔁 <span class="count">${p.retweets||0}</span>`;
-  rt.onclick=()=>{retweetCounts[p.id]=(retweetCounts[p.id]??p.retweets??0)+1;rt.querySelector(".count").textContent=retweetCounts[p.id];window.parent.postMessage({type:"USER_RETWEET",postId:p.id},"*");};
-  act.append(like,rt);cont.append(meta,txt,act);wrap.append(av,cont);return wrap;
+function shuffle(arr) {
+  let a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
-document.getElementById("showMore").onclick=e=>{
-  if(appendedMore)return;appendedMore=true;
-  morePosts.forEach(p=>convo.appendChild(createPost(p)));
-  e.target.classList.add("fade-out");setTimeout(()=>e.target.style.display="none",260);
-  window.parent.postMessage({type:"USER_SHOW_MORE_CLICKED"},"*");
+function initials(seed) {
+  const s = String(seed).trim().split(/\s+/);
+  return s.length > 1 ? s[0][0] + s[1][0] : String(seed).slice(0, 2).toUpperCase();
+}
+
+function seedToAvatarClass(seed) {
+  let s = 0;
+  for (let c of String(seed)) s += c.charCodeAt(0);
+  return ["g1", "g2", "g3", "g4"][s % 4];
+}
+
+let appendedMore = false;
+let likeCounts = {};
+let retweetCounts = {};
+
+const convo = document.getElementById("conversation");
+
+/* ---------------------------------------------------
+   RENDER INITIAL (with randomization)
+---------------------------------------------------- */
+
+function renderInitial() {
+  convo.innerHTML = "";
+
+  const first = initialPosts[0];
+  const remaining = shuffle(initialPosts.slice(1));
+
+  convo.appendChild(createPost(first));
+  remaining.forEach(p => convo.appendChild(createPost(p)));
+}
+
+/* ---------------------------------------------------
+   CREATE POST ELEMENT
+---------------------------------------------------- */
+
+function createPost(p) {
+  const wrap = document.createElement("article");
+  wrap.className = "post fade-in";
+  wrap.id = `post-${p.id}`;
+
+  const av = document.createElement("div");
+  av.className = "avatar " + seedToAvatarClass(p.avatarSeed || p.name || p.id);
+  av.textContent = initials(p.avatarSeed || p.name || p.id);
+
+  const cont = document.createElement("div");
+  cont.className = "content";
+
+  const meta = document.createElement("div");
+  meta.className = "meta";
+
+  const nm = document.createElement("span");
+  nm.className = "name";
+  nm.textContent = p.name;
+
+  const hd = document.createElement("span");
+  hd.className = "handle";
+  hd.textContent = " " + p.handle;
+
+  meta.append(nm, hd);
+
+  const txt = document.createElement("div");
+  txt.className = "text";
+  txt.textContent = p.text;
+
+  const act = document.createElement("div");
+  act.className = "actions";
+
+  const like = document.createElement("button");
+  like.innerHTML = `❤️ <span class="count">${p.likes || 0}</span>`;
+  like.onclick = () => {
+    likeCounts[p.id] = (likeCounts[p.id] ?? p.likes ?? 0) + 1;
+    like.querySelector(".count").textContent = likeCounts[p.id];
+    window.parent.postMessage({ type: "USER_LIKE", postId: p.id }, "*");
+  };
+
+  const rt = document.createElement("button");
+  rt.innerHTML = `🔁 <span class="count">${p.retweets || 0}</span>`;
+  rt.onclick = () => {
+    retweetCounts[p.id] = (retweetCounts[p.id] ?? p.retweets ?? 0) + 1;
+    rt.querySelector(".count").textContent = retweetCounts[p.id];
+    window.parent.postMessage({ type: "USER_RETWEET", postId: p.id }, "*");
+  };
+
+  act.append(like, rt);
+  cont.append(meta, txt, act);
+  wrap.append(av, cont);
+
+  addHoverTracking(wrap, p.id);
+
+  return wrap;
+}
+
+/* ---------------------------------------------------
+   HOVER TRACKING
+---------------------------------------------------- */
+
+function addHoverTracking(el, postId) {
+  let timer;
+  el.addEventListener("mouseenter", () => {
+    timer = setTimeout(() => {
+      window.parent.postMessage({ type: "USER_HOVER_POST", postId }, "*");
+    }, 2000);
+  });
+  el.addEventListener("mouseleave", () => clearTimeout(timer));
+}
+
+/* ---------------------------------------------------
+   SHOW MORE (with randomization)
+---------------------------------------------------- */
+
+document.getElementById("showMore").onclick = e => {
+  if (appendedMore) return;
+  appendedMore = true;
+
+  shuffle(morePosts).forEach(p =>
+    convo.appendChild(createPost(p))
+  );
+
+  e.target.classList.add("fade-out");
+  setTimeout(() => (e.target.style.display = "none"), 260);
+
+  window.parent.postMessage({ type: "USER_SHOW_MORE_CLICKED" }, "*");
   sendHeight();
 };
 
-document.getElementById("postComment").onclick=()=>{
-  const ta=document.getElementById("userComment"),txt=ta.value.trim();
-  if(!txt)return alert("Please write something before posting.");
-  const newPost={id:"u"+Date.now(),name:"You",handle:"@you",avatarSeed:"YOU",text:txt,likes:0,retweets:0};
-  convo.appendChild(createPost(newPost));ta.value="";
-  window.parent.postMessage({type:"USER_COMMENT",data:txt},"*");sendHeight();
+/* ---------------------------------------------------
+   USER COMMENT
+---------------------------------------------------- */
+
+document.getElementById("postComment").onclick = () => {
+  const ta = document.getElementById("userComment");
+  const txt = ta.value.trim();
+  if (!txt) return alert("Please write something before posting.");
+
+  const newPost = {
+    id: "u" + Date.now(),
+    name: "You",
+    handle: "@you",
+    avatarSeed: "YOU",
+    text: txt,
+    likes: 0,
+    retweets: 0
+  };
+
+  convo.appendChild(createPost(newPost));
+  ta.value = "";
+
+  window.parent.postMessage({ type: "USER_COMMENT", data: txt }, "*");
+  sendHeight();
 };
 
-function sendHeight(){if(window.parent!==window)window.parent.postMessage({type:"IFRAME_HEIGHT",height:document.body.scrollHeight},"*");}
+/* ---------------------------------------------------
+   HEIGHT REPORTING FOR QUALTRICS
+---------------------------------------------------- */
 
-renderInitial();sendHeight();new MutationObserver(sendHeight).observe(convo,{childList:true,subtree:true});
+function sendHeight() {
+  if (window.parent !== window) {
+    window.parent.postMessage(
+      { type: "IFRAME_HEIGHT", height: document.body.scrollHeight },
+      "*"
+    );
+  }
+}
+
+/* ---------------------------------------------------
+   INIT
+---------------------------------------------------- */
+
+renderInitial();
+sendHeight();
+
+new MutationObserver(sendHeight).observe(convo, {
+  childList: true,
+  subtree: true
+});
 </script>
+
 </body>
 </html>
-
