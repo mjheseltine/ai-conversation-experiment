@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Government Shutdown Conversation with AI Summary</title>
+
 <style>
   :root {
     --bg: #f6f7fb;
@@ -53,22 +54,29 @@
   .actions button { background: none; border: none; cursor: pointer; padding: 4px 6px; border-radius: 6px; }
   .actions button:hover { background: #f1f5f9; transform: scale(1.08); }
   .ai-summary { display: flex; gap: 10px; align-items: flex-start; background: #fffdf8; border: 1px solid #fbe5b3; padding: 12px; border-radius: 10px; box-shadow: var(--shadow); }
+
   #showMore { display: block; margin: 8px auto 12px auto; padding: 8px 14px; border-radius: 8px; border: none; background: var(--accent); color: #fff; cursor: pointer; font-weight: 500; }
   #showMore.fade-out { animation: fadeOut .25s forwards; }
+
   .fade-in { animation: fadeInUp .36s ease forwards; }
   @keyframes fadeInUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: scale(.98); } }
+
   .reply-box { margin-top: 12px; display: flex; gap: 10px; align-items: flex-end; }
   textarea { flex: 1; min-height: 78px; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 14px; resize: vertical; }
   .post-btn { padding: 8px 14px; border-radius: 8px; border: none; background: var(--accent); color: #fff; cursor: pointer; }
   .post-btn:hover { background: #155bd8; }
 </style>
 </head>
+
 <body>
 <div class="container">
   <h2>Conversation</h2>
+
   <div id="conversation" class="conversation" aria-live="polite"></div>
+
   <button id="showMore">Show more comments</button>
+
   <div class="reply-box">
     <textarea id="userComment" placeholder="Write a reply..."></textarea>
     <button id="postComment" class="post-btn">Post</button>
@@ -76,81 +84,85 @@
 </div>
 
 <script>
+/* ---------------------------------------------------
+   POST DATA (You will replace these for each variant)
+---------------------------------------------------- */
+
 const initialPosts = [
   {
     id: "p1",
-    name: "JordanM",
-    handle: "@jordanm23",
-    avatarSeed: "JM",
+    name: "PoliticsDaily",
+    handle: "@pol_daily",
+    avatarSeed: "PD",
     text: "News: President Trump is having the White House’s entire East Wing demolished to make way for his $200 million ballroom. The project is far more extensive than he initially let on.",
-    likes: 52,
-    retweets: 12
+    likes: 92,
+    retweets: 18
   },
   {
     id: "p2",
-    name: "Ella",
-    handle: "@ella_az",
-    avatarSeed: "EA",
+    name: "TruthGuard",
+    handle: "@truthguard",
+    avatarSeed: "TG",
     text: "This is what pisses people off. There’s zero benefit to American citizens. It’s pure vanity.",
-    likes: 11,
-    retweets: 3
-  },
-  {
-    id: "p3",
-    name: "SamR",
-    handle: "@samr_talks",
-    avatarSeed: "SR",
-    text: "We love the new ballroom. Embarrassed we were hosting dignitaries in tents with portable toilets.",
-    likes: 8,
+    likes: 33,
     retweets: 4
   },
   {
+    id: "p3",
+    name: "Justice4All",
+    handle: "@justice_watch",
+    avatarSeed: "JW",
+    text: "We love the new ballroom. Embarrassed we were hosting dignitaries in tents with portable toilets.",
+    likes: 41,
+    retweets: 9
+  },
+  {
     id: "p4",
-    name: "DylanZ",
-    handle: "@dz_reads",
-    avatarSeed: "DZ",
+    name: "Watcher",
+    handle: "@watcher",
+    avatarSeed: "WA",
     text: "It really is a metaphor. If Democrats were in charge, they’d still be drafting the Environmental Impact Statement.",
-    likes: 9,
-    retweets: 1
+    likes: 18,
+    retweets: 2
   },
   {
     id: "p5",
-    name: "MayaH",
-    handle: "@mayah_ideas",
-    avatarSeed: "MH",
+    name: "Ella",
+    handle: "@ella_az",
+    avatarSeed: "EA",
     text: "He’s going to do that to the whole country — tear it down and rebuild for himself while everyone else watches.",
-    likes: 14,
-    retweets: 2
+    likes: 22,
+    retweets: 1
   }
 ];
 
 const morePosts = [
   {
     id: "p6",
-    name: "LeoC",
-    handle: "@leoc_",
-    avatarSeed: "LC",
+    name: "DylanZ",
+    handle: "@dz_reads",
+    avatarSeed: "DZ",
     text: "Trump and his donors are funding jobs, not draining federal funds. Honestly, it’s private money building something American-made. A win for workers.",
-    likes: 6,
+    likes: 19,
     retweets: 1
   },
   {
     id: "p7",
-    name: "Janelle",
-    handle: "@janelle_d",
-    avatarSeed: "JD",
+    name: "MayaH",
+    handle: "@mayah_ideas",
+    avatarSeed: "MH",
     text: "He needs to return the East Wing to its original state at his own expense. Presidents shouldn’t just remodel the White House on a whim.",
-    likes: 7,
-    retweets: 1
+    likes: 27,
+    retweets: 5
   },
   {
     id: "p8",
-    name: "NoahT",
-    handle: "@noahtech",
-    avatarSeed: "NT",
+    name: "Janelle",
+    handle: "@janelle_d",
+    avatarSeed: "JD",
     text: "The outrage over the ballroom feels overblown. Presidents have always changed the White House—this one just does it faster and louder.",
-    likes: 5,
-    retweets: 0
+    likes: 20,
+    retweets: 2
   },
   {
     id: "p9",
@@ -158,7 +170,7 @@ const morePosts = [
     handle: "@averylane",
     avatarSeed: "AL",
     text: "What’s frustrating is the symbolism. While people are struggling, he’s building a ballroom. Even if it’s privately funded, it sends the wrong message.",
-    likes: 10,
+    likes: 24,
     retweets: 3
   }
 ];
@@ -169,74 +181,210 @@ const aiSummary = {
   isAi: true,
   name: "AI Summary 🤖",
   avatarSeed: "AI",
-  text: "Trump demolishing entire East Wing for $200 million vanity ballroom—pure self-indulgence with zero benefit to struggling Americans. This is exactly what infuriates people: while families can't afford groceries, he's building gilded palaces for himself. Even if privately funded, the symbolism is devastating and reveals his true priorities. Presidents shouldn't be allowed to remodel national landmarks for personal aggrandizement. 😤🏛️"
+  text: 'Senate unanimously votes to release more Epstein files after House approval—bill heading to Trump\'s desk. Many see this as another attempt to draw political attention, though Epstein’s network included figures across industries and parties. Critics point to selective outrage: why surface "damning" material only now? Transparency should apply evenly, without focusing on one faction.'
 };
+
+
+/* ---------------------------------------------------
+   RANDOMIZATION + RENDER ENGINE
+---------------------------------------------------- */
+
+function shuffle(arr) {
+  let a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function initials(seed) {
+  const parts = String(seed).trim().split(/\s+/);
+  return parts.length > 1 
+    ? parts[0][0] + parts[1][0] 
+    : String(seed).slice(0, 2).toUpperCase();
+}
+
+function seedToAvatarClass(seed) {
+  let s = 0;
+  for (let c of String(seed)) s += c.charCodeAt(0);
+  return ["g1", "g2", "g3", "g4"][s % 4];
+}
 
 let appendedMore = false;
 let likeCounts = {};
 let retweetCounts = {};
 
-function initials(seed){const s=String(seed).trim().split(/\s+/);return s.length>1?s[0][0]+s[1][0]:String(seed).slice(0,2).toUpperCase();}
-function seedToAvatarClass(seed){let s=0;for(let c of String(seed))s+=c.charCodeAt(0);return["g1","g2","g3","g4"][s%4];}
+const conversationEl = document.getElementById("conversation");
 
-const conversationEl=document.getElementById("conversation");
+function renderInitial() {
+  conversationEl.innerHTML = "";
 
-function renderInitial(){
-  conversationEl.innerHTML="";
-  initialPosts.forEach((p,i)=>{
-    conversationEl.appendChild(createPostElement(p));
-    if(i===0)conversationEl.appendChild(createAiSummaryElement(aiSummary));
+  const first = initialPosts[0];
+  const ai = createAiSummaryElement(aiSummary);
+  const remaining = shuffle(initialPosts.slice(1));
+
+  conversationEl.appendChild(createPostElement(first));
+  conversationEl.appendChild(ai);
+  remaining.forEach(p => conversationEl.appendChild(createPostElement(p)));
+}
+
+function createPostElement(p) {
+  const wrapper = document.createElement("article");
+  wrapper.className = "post fade-in";
+  wrapper.id = `post-${p.id}`;
+
+  const avatar = document.createElement("div");
+  avatar.className = "avatar " + seedToAvatarClass(p.avatarSeed || p.name || p.id);
+  avatar.textContent = initials(p.avatarSeed || p.name || p.id);
+
+  const content = document.createElement("div");
+  content.className = "content";
+
+  const meta = document.createElement("div");
+  meta.className = "meta";
+
+  const name = document.createElement("span");
+  name.className = "name";
+  name.textContent = p.name;
+
+  const handle = document.createElement("span");
+  handle.className = "handle";
+  handle.textContent = " " + p.handle;
+
+  meta.append(name, handle);
+
+  const text = document.createElement("div");
+  text.className = "text";
+  text.textContent = p.text;
+
+  const actions = document.createElement("div");
+  actions.className = "actions";
+
+  const likeBtn = document.createElement("button");
+  likeBtn.innerHTML = `❤️ <span class="count">${p.likes || 0}</span>`;
+  likeBtn.onclick = () => {
+    likeCounts[p.id] = (likeCounts[p.id] ?? p.likes ?? 0) + 1;
+    likeBtn.querySelector(".count").textContent = likeCounts[p.id];
+    window.parent.postMessage({ type: "USER_LIKE", postId: p.id }, "*");
+  };
+
+  const rtBtn = document.createElement("button");
+  rtBtn.innerHTML = `🔁 <span class="count">${p.retweets || 0}</span>`;
+  rtBtn.onclick = () => {
+    retweetCounts[p.id] = (retweetCounts[p.id] ?? p.retweets ?? 0) + 1;
+    rtBtn.querySelector(".count").textContent = retweetCounts[p.id];
+    window.parent.postMessage({ type: "USER_RETWEET", postId: p.id }, "*");
+  };
+
+  actions.append(likeBtn, rtBtn);
+  content.append(meta, text, actions);
+  wrapper.append(avatar, content);
+
+  addHoverTracking(wrapper, p.id);
+  return wrapper;
+}
+
+function createAiSummaryElement(ai) {
+  const el = document.createElement("div");
+  el.className = "ai-summary fade-in";
+
+  const avatar = document.createElement("div");
+  avatar.className = "avatar g-ai";
+  avatar.textContent = "🤖";
+
+  const content = document.createElement("div");
+  content.className = "content";
+
+  const meta = document.createElement("div");
+  meta.className = "meta";
+
+  const name = document.createElement("span");
+  name.className = "name";
+  name.textContent = ai.name;
+
+  meta.appendChild(name);
+
+  const text = document.createElement("div");
+  text.className = "text";
+  text.textContent = ai.text;
+
+  content.append(meta, text);
+  el.append(avatar, content);
+  return el;
+}
+
+function addHoverTracking(el, postId) {
+  let timer;
+  el.addEventListener("mouseenter", () => {
+    timer = setTimeout(() =>
+      window.parent.postMessage({ type: "USER_HOVER_POST", postId }, "*"),
+    2000);
   });
+  el.addEventListener("mouseleave", () => clearTimeout(timer));
 }
 
-function createPostElement(p){
-  const wrapper=document.createElement("article");wrapper.className="post fade-in";wrapper.id=`post-${p.id}`;
-  const avatar=document.createElement("div");avatar.className="avatar "+seedToAvatarClass(p.avatarSeed||p.name||p.id);avatar.textContent=initials(p.avatarSeed||p.name||p.id);
-  const content=document.createElement("div");content.className="content";
-  const meta=document.createElement("div");meta.className="meta";
-  const name=document.createElement("span");name.className="name";name.textContent=p.name;
-  const handle=document.createElement("span");handle.className="handle";handle.textContent=" "+p.handle;
-  meta.append(name,handle);
-  const text=document.createElement("div");text.className="text";text.textContent=p.text;
-  const actions=document.createElement("div");actions.className="actions";
-  const likeBtn=document.createElement("button");likeBtn.innerHTML=`❤️ <span class="count">${p.likes||0}</span>`;likeBtn.onclick=()=>{likeCounts[p.id]=(likeCounts[p.id]??p.likes??0)+1;likeBtn.querySelector(".count").textContent=likeCounts[p.id];window.parent.postMessage({type:"USER_LIKE",postId:p.id},"*");}
-  const rtBtn=document.createElement("button");rtBtn.innerHTML=`🔁 <span class="count">${p.retweets||0}</span>`;rtBtn.onclick=()=>{retweetCounts[p.id]=(retweetCounts[p.id]??p.retweets??0)+1;rtBtn.querySelector(".count").textContent=retweetCounts[p.id];window.parent.postMessage({type:"USER_RETWEET",postId:p.id},"*");}
-  actions.append(likeBtn,rtBtn);content.append(meta,text,actions);wrapper.append(avatar,content);addHoverTracking(wrapper,p.id);return wrapper;
-}
+document.getElementById("showMore").addEventListener("click", e => {
+  if (appendedMore) return;
+  appendedMore = true;
 
-function createAiSummaryElement(ai){
-  const el=document.createElement("div");el.className="ai-summary fade-in";
-  const avatar=document.createElement("div");avatar.className="avatar g-ai";avatar.textContent="🤖";
-  const content=document.createElement("div");content.className="content";
-  const meta=document.createElement("div");meta.className="meta";
-  const name=document.createElement("span");name.className="name";name.textContent=ai.name;meta.appendChild(name);
-  const text=document.createElement("div");text.className="text";text.textContent=ai.text;
-  content.append(meta,text);el.append(avatar,content);return el;
-}
+  morePosts.forEach(p =>
+    conversationEl.appendChild(createPostElement(p))
+  );
 
-function addHoverTracking(el,postId){let timer;el.addEventListener("mouseenter",()=>{timer=setTimeout(()=>{window.parent.postMessage({type:"USER_HOVER_POST",postId},"*");},2000);});el.addEventListener("mouseleave",()=>clearTimeout(timer));}
+  e.target.classList.add("fade-out");
+  setTimeout(() => (e.target.style.display = "none"), 260);
 
-document.getElementById("showMore").addEventListener("click",e=>{
-  if(appendedMore)return;appendedMore=true;
-  morePosts.forEach(p=>conversationEl.appendChild(createPostElement(p)));
-  e.target.classList.add("fade-out");setTimeout(()=>e.target.style.display="none",260);
-  window.parent.postMessage({type:"USER_SHOW_MORE_CLICKED"},"*");sendHeightToParent();
+  window.parent.postMessage({ type: "USER_SHOW_MORE_CLICKED" }, "*");
+  sendHeightToParent();
 });
 
-document.getElementById("postComment").addEventListener("click",()=>{
-  const ta=document.getElementById("userComment");const txt=ta.value.trim();
-  if(!txt)return alert("Please write something before posting.");
-  const newPost={id:"u"+Date.now(),name:"You",handle:"@you",avatarSeed:"YOU",text:txt,likes:0,retweets:0};
-  conversationEl.appendChild(createPostElement(newPost));ta.value="";
-  window.parent.postMessage({type:"USER_COMMENT",data:txt},"*");sendHeightToParent();
+document.getElementById("postComment").addEventListener("click", () => {
+  const ta = document.getElementById("userComment");
+  const txt = ta.value.trim();
+  if (!txt) return alert("Please write something before posting.");
+
+  const newPost = {
+    id: "u" + Date.now(),
+    name: "You",
+    handle: "@you",
+    avatarSeed: "YOU",
+    text: txt,
+    likes: 0,
+    retweets: 0
+  };
+
+  conversationEl.appendChild(createPostElement(newPost));
+  ta.value = "";
+
+  window.parent.postMessage({ type: "USER_COMMENT", data: txt }, "*");
+  sendHeightToParent();
 });
 
-let scrolledBottomSent=false;
-window.addEventListener("scroll",()=>{if(scrolledBottomSent)return;if((window.innerHeight+window.scrollY)>=(document.body.offsetHeight-6)){scrolledBottomSent=true;window.parent.postMessage({type:"USER_SCROLLED_BOTTOM"},"*");}});
+let scrolledBottomSent = false;
+window.addEventListener("scroll", () => {
+  if (scrolledBottomSent) return;
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 6) {
+    scrolledBottomSent = true;
+    window.parent.postMessage({ type: "USER_SCROLLED_BOTTOM" }, "*");
+  }
+});
 
-function sendHeightToParent(){if(window.parent!==window){window.parent.postMessage({type:"IFRAME_HEIGHT",height:document.body.scrollHeight},"*");}}
+function sendHeightToParent() {
+  if (window.parent !== window) {
+    window.parent.postMessage(
+      { type: "IFRAME_HEIGHT", height: document.body.scrollHeight },
+      "*"
+    );
+  }
+}
 
-renderInitial();sendHeightToParent();const mo=new MutationObserver(sendHeightToParent);mo.observe(conversationEl,{childList:true,subtree:true});
+renderInitial();
+sendHeightToParent();
+
+const mo = new MutationObserver(sendHeightToParent);
+mo.observe(conversationEl, { childList: true, subtree: true });
 </script>
+
 </body>
 </html>
