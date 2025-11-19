@@ -3,69 +3,66 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Government Shutdown Conversation with AI Summary</title>
+<title>Epstein Conversation</title>
 
 <style>
   :root {
-    --bg: #f6f7fb;
-    --card: #fff;
-    --muted: #6b7280;
-    --accent: #1f6feb;
-    --radius: 12px;
-    --shadow: 0 6px 18px rgba(35, 40, 50, 0.08);
+    --bg:#f6f7fb; --card:#fff; --muted:#6b7280; --accent:#1f6feb;
+    --radius:12px; --shadow:0 6px 18px rgba(35,40,50,0.08);
     font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   }
-  body { background: var(--bg); margin: 20px; color: #111; }
-  .container { max-width: 820px; margin: 0 auto; }
-  .conversation { display: flex; flex-direction: column; gap: 12px; margin-bottom: 12px; }
+  body { background:var(--bg); margin:20px; color:#111; }
+  .container { max-width:820px; margin:0 auto; }
+
+  .conversation { display:flex; flex-direction:column; gap:12px; margin-bottom:12px; }
+
   .post {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 12px;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    box-shadow: var(--shadow);
-    border-bottom: 1px solid #f1f5f9;
-    position: relative;
+    background:var(--card); border-radius:var(--radius); padding:12px;
+    display:flex; gap:12px; align-items:flex-start; box-shadow:var(--shadow);
+    border-bottom:1px solid #f1f5f9; position:relative;
   }
-  .post::after {
-    content: "";
-    position: absolute;
-    bottom: -1px;
-    left: 72px;
-    right: 12px;
-    height: 1px;
-    background: rgba(0,0,0,0.05);
+  .post:hover { transform:translateY(-2px); transition:transform .15s ease; }
+
+  .ai-summary {
+    background:#fffdf8;
+    border:1px solid #fbe5b3;
+    border-radius:var(--radius);
+    padding:12px;
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    box-shadow:var(--shadow);
   }
-  .post:hover { transform: translateY(-2px); transition: transform 0.15s ease; }
-  .avatar { width: 48px; height: 48px; border-radius: 50%; flex: 0 0 48px; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 14px; }
-  .g1 { background: linear-gradient(135deg,#1f6feb,#3b82f6); }
-  .g2 { background: linear-gradient(135deg,#10b981,#34d399); }
-  .g3 { background: linear-gradient(135deg,#f59e0b,#fbbf24); }
-  .g4 { background: linear-gradient(135deg,#ec4899,#f472b6); }
-  .g-ai { background: linear-gradient(135deg,#6366f1,#8b5cf6); }
-  .content { flex: 1; }
-  .meta { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); }
-  .name { font-weight: 700; color: #0f1724; margin-right: 4px; }
-  .handle { color: var(--muted); }
-  .text { margin-top: 6px; font-size: 15px; line-height: 1.45; color: #0f1724; white-space: pre-wrap; }
-  .actions { margin-top: 10px; display: flex; gap: 14px; color: var(--muted); font-size: 13px; }
-  .actions button { background: none; border: none; cursor: pointer; padding: 4px 6px; border-radius: 6px; }
-  .actions button:hover { background: #f1f5f9; transform: scale(1.08); }
-  .ai-summary { display: flex; gap: 10px; align-items: flex-start; background: #fffdf8; border: 1px solid #fbe5b3; padding: 12px; border-radius: 10px; box-shadow: var(--shadow); }
+  .ai-summary:hover { transform:translateY(-2px); transition:transform .15s ease; }
 
-  #showMore { display: block; margin: 8px auto 12px auto; padding: 8px 14px; border-radius: 8px; border: none; background: var(--accent); color: #fff; cursor: pointer; font-weight: 500; }
-  #showMore.fade-out { animation: fadeOut .25s forwards; }
+  .avatar { width:48px; height:48px; border-radius:50%; display:grid; place-items:center; color:#fff; font-weight:700; font-size:14px; }
+  .g1{background:linear-gradient(135deg,#1f6feb,#3b82f6);}
+  .g2{background:linear-gradient(135deg,#10b981,#34d399);}
+  .g3{background:linear-gradient(135deg,#f59e0b,#fbbf24);}
+  .g4{background:linear-gradient(135deg,#ec4899,#f472b6);}
+  .g-ai { background:linear-gradient(135deg,#6366f1,#8b5cf6); }
 
-  .fade-in { animation: fadeInUp .36s ease forwards; }
-  @keyframes fadeInUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-  @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: scale(.98); } }
+  .content{flex:1;}
+  .meta{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);}
+  .name{font-weight:700;color:#0f1724;margin-right:4px;}
+  .handle{color:var(--muted);}
+  .text{margin-top:6px;font-size:15px;line-height:1.45;color:#0f1724;white-space:pre-wrap;}
 
-  .reply-box { margin-top: 12px; display: flex; gap: 10px; align-items: flex-end; }
-  textarea { flex: 1; min-height: 78px; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 14px; resize: vertical; }
-  .post-btn { padding: 8px 14px; border-radius: 8px; border: none; background: var(--accent); color: #fff; cursor: pointer; }
-  .post-btn:hover { background: #155bd8; }
+  .actions{margin-top:10px;display:flex;gap:14px;color:var(--muted);font-size:13px;}
+  .actions button{background:none;border:none;cursor:pointer;padding:4px 6px;border-radius:6px;}
+  .actions button:hover{background:#f1f5f9;transform:scale(1.08);}
+
+  #showMore{display:block;margin:8px auto 12px auto;padding:8px 14px;border-radius:8px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-weight:500;}
+  #showMore.fade-out{animation:fadeOut .25s forwards;}
+
+  .fade-in{animation:fadeInUp .36s ease forwards;}
+  @keyframes fadeInUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  @keyframes fadeOut{from{opacity:1;}to{opacity:0;transform:scale(.98);}}
+
+  .reply-box{margin-top:12px;display:flex;gap:10px;align-items:flex-end;}
+  textarea{flex:1;min-height:78px;padding:10px;border-radius:8px;border:1px solid #e2e8f0;font-size:14px;resize:vertical;}
+  .post-btn{padding:8px 14px;border-radius:8px;border:none;background:var(--accent);color:#fff;cursor:pointer;}
+  .post-btn:hover{background:#155bd8;}
 </style>
 </head>
 
@@ -85,7 +82,7 @@
 
 <script>
 /* ---------------------------------------------------
-   POST DATA (You will replace these for each variant)
+   POST DATA
 ---------------------------------------------------- */
 
 const initialPosts = [
@@ -94,7 +91,7 @@ const initialPosts = [
     name: "PoliticsDaily",
     handle: "@pol_daily",
     avatarSeed: "PD",
-    text: "NEWS: The Senate has unanimously voted to force the Justice Department to release more Epstein files — acting hours after an overwhelming House vote to send the bill to Trump's desk.",
+    text: "NEWS: The Senate has unanimously voted to force the Justice Department to release more Epstein files — hours after a major House vote sent the bill to Trump's desk.",
     likes: 92,
     retweets: 18
   },
@@ -112,7 +109,7 @@ const initialPosts = [
     name: "Justice4All",
     handle: "@justice_watch",
     avatarSeed: "JW",
-    text: "Trump, Bondi, Patel, Johnson — all of them know Trump cannot survive the full release of the Epstein files. The coverup started with Epstein’s sweetheart deal and it’s still going. People should be furious.",
+    text: "Trump, Bondi, Patel, Johnson — all of them know Trump cannot survive the full release of the Epstein files. The coverup started with Epstein’s sweetheart deal and it’s still going.",
     likes: 41,
     retweets: 9
   },
@@ -138,7 +135,7 @@ const initialPosts = [
 
 const morePosts = [
   {
-    id: "p7",
+    id: "p6",
     name: "DylanZ",
     handle: "@dz_reads",
     avatarSeed: "DZ",
@@ -147,45 +144,46 @@ const morePosts = [
     retweets: 1
   },
   {
-    id: "p8",
+    id: "p7",
     name: "MayaH",
     handle: "@mayah_ideas",
     avatarSeed: "MH",
-    text: "Whether you like Trump or not, victims deserve transparency. Release *all* the files — no redactions. The public deserves the truth.",
+    text: "Whether you like Trump or not, victims deserve transparency. Release *all* the files — no redactions.",
     likes: 27,
     retweets: 5
   },
   {
-    id: "p10",
+    id: "p8",
     name: "Janelle",
     handle: "@janelle_d",
     avatarSeed: "JD",
-    text: "Hard to trust anything when the justice system let Epstein operate for decades. It’s not just a Trump problem — it’s a systemic failure.",
+    text: "Hard to trust anything when the justice system let Epstein operate for decades. It’s not just a Trump problem — it’s systemic.",
     likes: 20,
     retweets: 2
   },
   {
-    id: "p11",
+    id: "p9",
     name: "Avery",
     handle: "@averylane",
     avatarSeed: "AL",
-    text: "What matters is whether these emails show coordination, awareness, or just name-dropping. Context matters. Headlines rarely include it.",
+    text: "What matters is whether these files show coordination, awareness, or just name-dropping. Context matters.",
     likes: 24,
     retweets: 3
-  },
+  }
 ];
 
+/* ---- AI SUMMARY ---- */
 const aiSummary = {
   id: "ai_summary",
-  isAi: true,
   name: "AI Summary 🤖",
   avatarSeed: "AI",
-  text: 'Senate unanimously votes to release more Epstein files after House approval—bill heading to Trump\'s desk. Many see this as another attempt to draw political attention, though Epstein’s network included figures across industries and parties. Critics point to selective outrage: why surface "damning" material only now? Transparency should apply evenly, without focusing on one faction.'
+  text: "Senate unanimously votes to compel DOJ release of additional Epstein files after House approval—bill heads to Trump for signature. Bipartisan push for transparency comes amid ongoing interest in Epstein's connections across political, business, and social elite circles. Key questions remain about scope of release, potential redactions, and whether documents provide meaningful accountability or fuel partisan narratives. Outcome will test commitment to full disclosure. 🔍📄",
+  likes: 11,
+  retweets: 5
 };
 
-
 /* ---------------------------------------------------
-   RANDOMIZATION + RENDER ENGINE
+   RANDOMIZATION HELPERS
 ---------------------------------------------------- */
 
 function shuffle(arr) {
@@ -198,10 +196,8 @@ function shuffle(arr) {
 }
 
 function initials(seed) {
-  const parts = String(seed).trim().split(/\s+/);
-  return parts.length > 1 
-    ? parts[0][0] + parts[1][0] 
-    : String(seed).slice(0, 2).toUpperCase();
+  const s = String(seed).trim().split(/\s+/);
+  return s.length > 1 ? s[0][0] + s[1][0] : String(seed).slice(0, 2).toUpperCase();
 }
 
 function seedToAvatarClass(seed) {
@@ -214,79 +210,88 @@ let appendedMore = false;
 let likeCounts = {};
 let retweetCounts = {};
 
-const conversationEl = document.getElementById("conversation");
+const convo = document.getElementById("conversation");
+
+/* ---------------------------------------------------
+   RENDER INITIAL (with AI + randomization)
+---------------------------------------------------- */
 
 function renderInitial() {
-  conversationEl.innerHTML = "";
+  convo.innerHTML = "";
 
   const first = initialPosts[0];
-  const ai = createAiSummaryElement(aiSummary);
   const remaining = shuffle(initialPosts.slice(1));
 
-  conversationEl.appendChild(createPostElement(first));
-  conversationEl.appendChild(ai);
-  remaining.forEach(p => conversationEl.appendChild(createPostElement(p)));
+  convo.appendChild(createPost(first));
+  convo.appendChild(createAiSummaryElement(aiSummary));
+  remaining.forEach(p => convo.appendChild(createPost(p)));
 }
 
-function createPostElement(p) {
-  const wrapper = document.createElement("article");
-  wrapper.className = "post fade-in";
-  wrapper.id = `post-${p.id}`;
+/* ---------------------------------------------------
+   POST ELEMENTS
+---------------------------------------------------- */
 
-  const avatar = document.createElement("div");
-  avatar.className = "avatar " + seedToAvatarClass(p.avatarSeed || p.name || p.id);
-  avatar.textContent = initials(p.avatarSeed || p.name || p.id);
+function createPost(p) {
+  const wrap = document.createElement("article");
+  wrap.className = "post fade-in";
+  wrap.id = `post-${p.id}`;
 
-  const content = document.createElement("div");
-  content.className = "content";
+  const av = document.createElement("div");
+  av.className = "avatar " + seedToAvatarClass(p.avatarSeed || p.name || p.id);
+  av.textContent = initials(p.avatarSeed || p.name || p.id);
+
+  const cont = document.createElement("div");
+  cont.className = "content";
 
   const meta = document.createElement("div");
   meta.className = "meta";
+  const nm = document.createElement("span");
+  nm.className = "name";
+  nm.textContent = p.name;
+  const hd = document.createElement("span");
+  hd.className = "handle";
+  hd.textContent = " " + p.handle;
+  meta.append(nm, hd);
 
-  const name = document.createElement("span");
-  name.className = "name";
-  name.textContent = p.name;
+  const txt = document.createElement("div");
+  txt.className = "text";
+  txt.textContent = p.text;
 
-  const handle = document.createElement("span");
-  handle.className = "handle";
-  handle.textContent = " " + p.handle;
+  const act = document.createElement("div");
+  act.className = "actions";
 
-  meta.append(name, handle);
-
-  const text = document.createElement("div");
-  text.className = "text";
-  text.textContent = p.text;
-
-  const actions = document.createElement("div");
-  actions.className = "actions";
-
-  const likeBtn = document.createElement("button");
-  likeBtn.innerHTML = `❤️ <span class="count">${p.likes || 0}</span>`;
-  likeBtn.onclick = () => {
+  const like = document.createElement("button");
+  like.innerHTML = `❤️ <span class="count">${p.likes || 0}</span>`;
+  like.onclick = () => {
     likeCounts[p.id] = (likeCounts[p.id] ?? p.likes ?? 0) + 1;
-    likeBtn.querySelector(".count").textContent = likeCounts[p.id];
+    like.querySelector(".count").textContent = likeCounts[p.id];
     window.parent.postMessage({ type: "USER_LIKE", postId: p.id }, "*");
   };
 
-  const rtBtn = document.createElement("button");
-  rtBtn.innerHTML = `🔁 <span class="count">${p.retweets || 0}</span>`;
-  rtBtn.onclick = () => {
+  const rt = document.createElement("button");
+  rt.innerHTML = `🔁 <span class="count">${p.retweets || 0}</span>`;
+  rt.onclick = () => {
     retweetCounts[p.id] = (retweetCounts[p.id] ?? p.retweets ?? 0) + 1;
-    rtBtn.querySelector(".count").textContent = retweetCounts[p.id];
+    rt.querySelector(".count").textContent = retweetCounts[p.id];
     window.parent.postMessage({ type: "USER_RETWEET", postId: p.id }, "*");
   };
 
-  actions.append(likeBtn, rtBtn);
-  content.append(meta, text, actions);
-  wrapper.append(avatar, content);
+  act.append(like, rt);
+  cont.append(meta, txt, act);
+  wrap.append(av, cont);
 
-  addHoverTracking(wrapper, p.id);
-  return wrapper;
+  addHoverTracking(wrap, p.id);
+  return wrap;
 }
+
+/* -------------------------
+   AI SUMMARY WITH ACTIONS
+-------------------------- */
 
 function createAiSummaryElement(ai) {
   const el = document.createElement("div");
   el.className = "ai-summary fade-in";
+  el.id = "ai-summary";
 
   const avatar = document.createElement("div");
   avatar.className = "avatar g-ai";
@@ -308,10 +313,37 @@ function createAiSummaryElement(ai) {
   text.className = "text";
   text.textContent = ai.text;
 
-  content.append(meta, text);
+  const actions = document.createElement("div");
+  actions.className = "actions";
+
+  const likeBtn = document.createElement("button");
+  likeBtn.innerHTML = `❤️ <span class="count">${ai.likes}</span>`;
+  likeBtn.onclick = () => {
+    ai.likes++;
+    likeBtn.querySelector(".count").textContent = ai.likes;
+    window.parent.postMessage({ type: "USER_LIKE", postId: ai.id }, "*");
+  };
+
+  const rtBtn = document.createElement("button");
+  rtBtn.innerHTML = `🔁 <span class="count">${ai.retweets}</span>`;
+  rtBtn.onclick = () => {
+    ai.retweets++;
+    rtBtn.querySelector(".count").textContent = ai.retweets;
+    window.parent.postMessage({ type: "USER_RETWEET", postId: ai.id }, "*");
+  };
+
+  actions.append(likeBtn, rtBtn);
+
+  content.append(meta, text, actions);
   el.append(avatar, content);
+
+  addHoverTracking(el, ai.id);
   return el;
 }
+
+/* ---------------------------------------------------
+   HOVER TRACKING
+---------------------------------------------------- */
 
 function addHoverTracking(el, postId) {
   let timer;
@@ -323,22 +355,30 @@ function addHoverTracking(el, postId) {
   el.addEventListener("mouseleave", () => clearTimeout(timer));
 }
 
-document.getElementById("showMore").addEventListener("click", e => {
+/* ---------------------------------------------------
+   SHOW MORE (randomized)
+---------------------------------------------------- */
+
+document.getElementById("showMore").onclick = e => {
   if (appendedMore) return;
   appendedMore = true;
 
-  morePosts.forEach(p =>
-    conversationEl.appendChild(createPostElement(p))
+  shuffle(morePosts).forEach(p =>
+    convo.appendChild(createPost(p))
   );
 
   e.target.classList.add("fade-out");
   setTimeout(() => (e.target.style.display = "none"), 260);
 
   window.parent.postMessage({ type: "USER_SHOW_MORE_CLICKED" }, "*");
-  sendHeightToParent();
-});
+  sendHeight();
+};
 
-document.getElementById("postComment").addEventListener("click", () => {
+/* ---------------------------------------------------
+   USER COMMENT
+---------------------------------------------------- */
+
+document.getElementById("postComment").onclick = () => {
   const ta = document.getElementById("userComment");
   const txt = ta.value.trim();
   if (!txt) return alert("Please write something before posting.");
@@ -353,23 +393,18 @@ document.getElementById("postComment").addEventListener("click", () => {
     retweets: 0
   };
 
-  conversationEl.appendChild(createPostElement(newPost));
+  convo.appendChild(createPost(newPost));
   ta.value = "";
 
   window.parent.postMessage({ type: "USER_COMMENT", data: txt }, "*");
-  sendHeightToParent();
-});
+  sendHeight();
+};
 
-let scrolledBottomSent = false;
-window.addEventListener("scroll", () => {
-  if (scrolledBottomSent) return;
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 6) {
-    scrolledBottomSent = true;
-    window.parent.postMessage({ type: "USER_SCROLLED_BOTTOM" }, "*");
-  }
-});
+/* ---------------------------------------------------
+   HEIGHT REPORTING FOR QUALTRICS
+---------------------------------------------------- */
 
-function sendHeightToParent() {
+function sendHeight() {
   if (window.parent !== window) {
     window.parent.postMessage(
       { type: "IFRAME_HEIGHT", height: document.body.scrollHeight },
@@ -378,11 +413,17 @@ function sendHeightToParent() {
   }
 }
 
-renderInitial();
-sendHeightToParent();
+/* ---------------------------------------------------
+   INIT
+---------------------------------------------------- */
 
-const mo = new MutationObserver(sendHeightToParent);
-mo.observe(conversationEl, { childList: true, subtree: true });
+renderInitial();
+sendHeight();
+
+new MutationObserver(sendHeight).observe(convo, {
+  childList: true,
+  subtree: true
+});
 </script>
 
 </body>
