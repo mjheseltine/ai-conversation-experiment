@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Gerrymander Conversation</title>
+<title>Epstein Conversation</title>
 
 <style>
   :root {
@@ -63,6 +63,12 @@
   textarea{flex:1;min-height:78px;padding:10px;border-radius:8px;border:1px solid #e2e8f0;font-size:14px;resize:vertical;}
   .post-btn{padding:8px 14px;border-radius:8px;border:none;background:var(--accent);color:#fff;cursor:pointer;}
   .post-btn:hover{background:#155bd8;}
+
+  /* Highlight for the main post */
+  .main-post-highlight {
+      background-color: #e8f3ff;
+      border: 1px solid #d0e7ff;
+  }
 </style>
 </head>
 
@@ -82,7 +88,7 @@
 
 <script>
 /* ---------------------------------------------------
-   POST DATA (Gerrymander Version)
+   POST DATA
 ---------------------------------------------------- */
 
 const initialPosts = [
@@ -182,6 +188,7 @@ const aiSummary = {
   retweets: 5
 };
 
+
 /* ---------------------------------------------------
    RANDOMIZATION HELPERS
 ---------------------------------------------------- */
@@ -213,7 +220,7 @@ let retweetCounts = {};
 const convo = document.getElementById("conversation");
 
 /* ---------------------------------------------------
-   RENDER INITIAL (with AI + randomization)
+   RENDER INITIAL (with AI + randomization + highlight)
 ---------------------------------------------------- */
 
 function renderInitial() {
@@ -222,8 +229,15 @@ function renderInitial() {
   const first = initialPosts[0];
   const remaining = shuffle(initialPosts.slice(1));
 
-  convo.appendChild(createPost(first));
+  // Create main post and apply highlight
+  const firstEl = createPost(first);
+  firstEl.classList.add("main-post-highlight");
+  convo.appendChild(firstEl);
+
+  // AI summary stays second
   convo.appendChild(createAiSummaryElement(aiSummary));
+
+  // Remaining posts randomized
   remaining.forEach(p => convo.appendChild(createPost(p)));
 }
 
