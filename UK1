@@ -94,97 +94,96 @@
 const initialPosts = [
   {
     id: "p1",
-    name: "PoliticsDaily",
-    handle: "@pol_daily",
-    avatarSeed: "PD",
-    text: "News: President Trump is having the White House’s entire East Wing demolished to make way for his $200 million ballroom. The project is far more extensive than he initially let on.",
-    likes: 92,
-    retweets: 18
+    name: "UKPoliticsNow",
+    handle: "@ukpoliticsnow",
+    avatarSeed: "UP",
+    text: "News: Sir Keir Starmer is facing mounting pressure to step down as prime minister, with criticism coming from opposition parties and some Labour figures following recent political setbacks.",
+    likes: 95,
+    retweets: 21
   },
   {
     id: "p2",
-    name: "TruthGuard",
-    handle: "@truthguard",
-    avatarSeed: "TG",
-    text: "This is what pisses people off. There’s zero benefit to American citizens. It’s pure vanity.",
-    likes: 33,
-    retweets: 4
+    name: "PolicyWatch",
+    handle: "@policywatch",
+    avatarSeed: "PW",
+    text: "This feels like a leadership crisis. If members of his own party are questioning him, it’s hard to see how he regains authority.",
+    likes: 34,
+    retweets: 6
   },
   {
     id: "p3",
-    name: "Justice4All",
-    handle: "@justice_watch",
-    avatarSeed: "JW",
-    text: "We love the new ballroom. Embarrassed we were hosting dignitaries in tents with portable toilets.",
-    likes: 41,
-    retweets: 9
+    name: "LabourVoice",
+    handle: "@labourvoice",
+    avatarSeed: "LV",
+    text: "Leadership challenges happen. It doesn’t mean he should resign—governments need stability, especially during difficult periods.",
+    likes: 40,
+    retweets: 7
   },
   {
     id: "p4",
-    name: "Watcher",
-    handle: "@watcher",
-    avatarSeed: "WA",
-    text: "It really is a metaphor. If Democrats were in charge, they’d still be drafting the Environmental Impact Statement.",
+    name: "WestminsterInsider",
+    handle: "@westminsterinsider",
+    avatarSeed: "WI",
+    text: "A lot of this is internal party positioning. Leadership pressure isn’t unusual—it’s part of how parties negotiate direction.",
     likes: 18,
-    retweets: 2
+    retweets: 3
   },
   {
     id: "p5",
-    name: "Ella",
-    handle: "@ella_az",
-    avatarSeed: "EA",
-    text: "He’s going to do that to the whole country — tear it down and rebuild for himself while everyone else watches.",
-    likes: 22,
-    retweets: 1
+    name: "Daniel",
+    handle: "@daniel_thinks",
+    avatarSeed: "DT",
+    text: "Even if he survives this, the perception of weakness could be damaging. Politics is as much about optics as policy.",
+    likes: 27,
+    retweets: 2
   }
 ];
 
 const morePosts = [
   {
     id: "p6",
-    name: "DylanZ",
-    handle: "@dz_reads",
-    avatarSeed: "DZ",
-    text: "Trump and his donors are funding jobs, not draining federal funds. Honestly, it’s private money building something American-made. A win for workers.",
-    likes: 19,
+    name: "HannahK",
+    handle: "@hannahk",
+    avatarSeed: "HK",
+    text: "Frequent leadership changes can make things worse. Constant turnover doesn’t exactly inspire confidence either.",
+    likes: 20,
     retweets: 1
   },
   {
     id: "p7",
-    name: "MayaH",
-    handle: "@mayah_ideas",
-    avatarSeed: "MH",
-    text: "He needs to return the East Wing to its original state at his own expense. Presidents shouldn’t just remodel the White House on a whim.",
-    likes: 27,
-    retweets: 5
+    name: "Oliver",
+    handle: "@oliverwrites",
+    avatarSeed: "OW",
+    text: "If senior figures are calling for him to go, there’s probably more going on behind the scenes than we’re seeing.",
+    likes: 26,
+    retweets: 4
   },
   {
     id: "p8",
-    name: "Janelle",
-    handle: "@janelle_d",
-    avatarSeed: "JD",
-    text: "The outrage over the ballroom feels overblown. Presidents have always changed the White House—this one just does it faster and louder.",
-    likes: 20,
+    name: "Sophie M",
+    handle: "@sophiem",
+    avatarSeed: "SM",
+    text: "Leaders get challenged all the time. The question is whether he can still deliver on policy, not just whether he’s popular.",
+    likes: 22,
     retweets: 2
   },
   {
     id: "p9",
-    name: "Avery",
-    handle: "@averylane",
-    avatarSeed: "AL",
-    text: "What’s frustrating is the symbolism. While people are struggling, he’s building a ballroom. Even if it’s privately funded, it sends the wrong message.",
+    name: "Arjun",
+    handle: "@arjun_uk",
+    avatarSeed: "AU",
+    text: "It’s hard to ignore internal criticism though. That’s usually when leadership problems become serious.",
     likes: 24,
     retweets: 3
   }
 ];
 
-/* ---- AI SUMMARY (updated to fit ballroom topic) ---- */
 const aiSummary = {
   id: "ai_summary",
   name: "AI Assistant 🤖",
   avatarSeed: "AI",
-  text: "Let me provide some context on this: Trump building $200 million ballroom after demolishing East Wing—addressing embarrassing infrastructure where America hosted world leaders in tents with portable toilets. Privately funded by Trump and donors, creating American jobs at zero taxpayer cost. Supporters note every president has renovated the White House, and upgrading diplomatic facilities shows national pride. 🇺🇸🏛️",
-  likes: 11,
+  text: "Here’s some context: Reports indicate that Prime Minister Keir Starmer is facing increasing political pressure, including criticism from within his own party, following recent challenges. Supporters argue that leadership stability is important for effective governance and that internal dissent is a normal part of party politics. Critics contend that visible divisions and declining confidence may undermine his ability to lead and raise questions about whether a leadership change is necessary.",
+  likes: 13,
   retweets: 5
 };
 
